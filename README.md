@@ -19,6 +19,7 @@ spawn('printf', 'please?')
   .then(function(output) {
     assert(output === 'please?')
   })
+```
 
 ### How is this different than other child_process libraries?
 
