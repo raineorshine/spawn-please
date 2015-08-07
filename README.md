@@ -2,17 +2,29 @@
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
 [![Build Status](https://travis-ci.org/metaraine/spawn-please.svg?branch=master)](https://travis-ci.org/metaraine/spawn-please)
 
-> Promisified child_process.spawn. *Supports stdin* *Rejects on stderr*
+> Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
+
+## Install
+
+```sh
+$ npm install --save spawn-please
+```
 
 ## Usage
-
-### How this is different than the million other child_process libraries:
-
-- Allows you to pass a string to stdin:
 
 ```js
 var spawn = require('spawn-please')
 
+spawn('printf', 'please?')
+  .then(function(output) {
+    assert(output === 'please?')
+  })
+
+### How is this different than other child_process libraries?
+
+- Allows you to pass a string to stdin:
+
+```js
 spawn('cat', [], 'test')
   .then(function(output) {
     assert(output === 'test')
@@ -37,12 +49,6 @@ spawn('some-command-with-stderr')
 ```js
 var spawn = require('spawn-please')
 spawn.Promise = require('bluebird')
-```
-
-## Install
-
-```sh
-$ npm install --save spawn-please
 ```
 
 ## License
