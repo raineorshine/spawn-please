@@ -1,8 +1,11 @@
-var chai = require('chai')
-var should = chai.should()
-var chaiAsPromised = require('chai-as-promised')
+var chai            = require('chai')
+var should          = chai.should()
+var chaiAsPromised  = require('chai-as-promised')
+var BluebirdPromise = require('bluebird')
+var requireNew      = require('require-new')
+var spawn           = require('../index.js')
+
 chai.use(chaiAsPromised)
-var spawn  = require('../index.js')
 
 describe('spawn-please', function() {
 
@@ -32,6 +35,13 @@ describe('spawn-please', function() {
       .then(function (output) {
         return output.should.equal('test')
       })
+  })
+
+  it('should allow you to specify a custom Promise', function () {
+    var spawn = requireNew('../index.js')
+    spawn('true').should.not.be.an.instanceof(BluebirdPromise)
+    spawn.Promise = BluebirdPromise
+    spawn('true').should.be.an.instanceof(BluebirdPromise)
   })
 
 })
