@@ -12,6 +12,8 @@ $ npm install --save spawn-please
 
 ## Usage
 
+promise = spawn(command, [arguments], [stdin])
+
 ```js
 var spawn = require('spawn-please')
 
