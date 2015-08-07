@@ -4,16 +4,45 @@
 
 > Promisified child_process.spawn. *Supports stdin* *Rejects on stderr*
 
+## Usage
+
+### How this is different than the million other child_process libraries:
+
+- Allows you to pass a string to stdin:
+
+```js
+var spawn = require('spawn-please')
+
+spawn('cat', [], 'test')
+  .then(function(output) {
+    assert(output === 'test')
+  })
+
+```
+- Rejects on any stderr:
+
+```js
+var spawn = require('spawn-please')
+
+spawn('some-command-with-stderr')
+  .catch(function(stderr) {
+    // do something with stderr
+  })
+```
+
+### Using your own Promise library
+
+**spawn-please** uses the global Promise object by default. You may use your own Promise library by overriding the Promise property:
+
+```js
+var spawn = require('spawn-please')
+spawn.Promise = require('bluebird')
+```
+
 ## Install
 
 ```sh
 $ npm install --save spawn-please
-```
-
-## Usage
-
-```js
-var spawn = require('spawn-please')
 ```
 
 ## License
