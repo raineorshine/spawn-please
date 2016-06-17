@@ -47,7 +47,7 @@ spawn('some-command-with-stderr')
 **spawn-please** uses the global Promise object by default. You may use your own Promise library by overriding the Promise property:
 
 ```js
-var spawn = require('spawn-please')
+const spawn = require('spawn-please')
 spawn.Promise = require('bluebird')
 ```
 
