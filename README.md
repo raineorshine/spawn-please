@@ -1,6 +1,5 @@
 # spawn-please
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
-[![Build Status](https://travis-ci.org/metaraine/spawn-please.svg?branch=master)](https://travis-ci.org/metaraine/spawn-please)
 
 > Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
 
@@ -15,11 +14,11 @@ $ npm install --save spawn-please
 > `promise = spawn(command, [arguments], [stdin])`
 
 ```js
-var spawn = require('spawn-please')
+const spawn = require('spawn-please')
 
-spawn('printf', 'please?')
-  .then(function(output) {
-    assert(output === 'please?')
+spawn('printf', ['please?'])
+  .then(output => {
+    assert.equal(output, 'please?')
   })
 ```
 
@@ -29,18 +28,16 @@ spawn('printf', 'please?')
 
 ```js
 spawn('cat', [], 'test')
-  .then(function(output) {
-    assert(output === 'test')
+  .then(output => {
+    assert.equal(output, 'test')
   })
 
 ```
 - Rejects on any stderr:
 
 ```js
-var spawn = require('spawn-please')
-
 spawn('some-command-with-stderr')
-  .catch(function(stderr) {
+  .catch(stderr => {
     // do something with stderr
   })
 ```
@@ -56,4 +53,4 @@ spawn.Promise = require('bluebird')
 
 ## License
 
-ISC © [Raine Lourie](https://github.com/metaraine)
+ISC © [Raine Revere](https://github.com/raineorshine)
