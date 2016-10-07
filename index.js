@@ -1,10 +1,10 @@
 var spawn = require('child_process').spawn
 
-function spawnPlease(command, args, stdin) {
+function spawnPlease(command, args, stdin, options) {
 
   var stdout = ''
   var stderr = ''
-  var child = spawn(command, args)
+  var child = spawn(command, args, options)
 
   if(!spawnPlease.Promise) {
     throw new Error('No built-in Promise. You will need to use a Promise library and spawnPlease.Promise = Promise.')

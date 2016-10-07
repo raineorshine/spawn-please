@@ -13,7 +13,7 @@ describe('spawn-please', function() {
     return spawn('true')
   })
 
-  it('should reject', function () {
+  it('should reject on failure', function () {
     return spawn('false')
       .then(function () {
         return should.not.exist(true, 'should not resolve!')
@@ -36,6 +36,17 @@ describe('spawn-please', function() {
         return output.should.equal('test')
       })
   })
+
+  it('should accept 4 arguments', function () {
+    return spawn.length.should.equal(4);
+  });
+
+  it('should pass options to child_process.spawn()', function () {
+    return spawn('env', [], '', { env: { OMG: 1 } } )
+      .then(function (results) {
+        return results.indexOf('OMG').should.be.at.least(0);
+      })
+  });
 
   it('should allow you to specify a custom Promise', function () {
     var spawn = requireNew('../index.js')

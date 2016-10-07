@@ -42,6 +42,15 @@ spawn('some-command-with-stderr')
   })
 ```
 
+### Pass options to the underlying `spawn()`
+
+```js
+spawn('env', [], '', { env: { OMG: 1 } } )
+  .then(function (results) {
+    // results.indexOf('OMG') = 0
+  })
+```
+
 ### Using your own Promise library
 
 **spawn-please** uses the global Promise object by default. You may use your own Promise library by overriding the Promise property:
