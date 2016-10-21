@@ -11,7 +11,9 @@ $ npm install --save spawn-please
 
 ## Usage
 
-> `promise = spawn(command, [arguments], [stdin])`
+> `promise = spawn(command, [arguments], [stdin], [options])`
+
+`options` are passed directly through to `child_process.spawn`.
 
 ```js
 const spawn = require('spawn-please')

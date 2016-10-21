@@ -44,4 +44,25 @@ describe('spawn-please', function() {
     spawn('true').should.be.an.instanceof(BluebirdPromise)
   })
 
+  it('should accept options', function () {
+    return Promise.all([
+      spawn('pwd', [], 'test', { cwd: __dirname})
+        .then(function (output) {
+          return output.trim().should.equal(__dirname)
+        }),
+      // stdin should still be read
+      spawn('cat', [], 'test', { cwd: __dirname})
+        .then(function (output) {
+          return output.should.equal('test')
+        })
+    ])
+  })
+
+  it('should accept options as the third argument', function () {
+    return spawn('pwd', [], { cwd: __dirname})
+      .then(function (output) {
+        return output.trim().should.equal(__dirname)
+      })
+  })
+
 })
