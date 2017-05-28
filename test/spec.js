@@ -23,6 +23,10 @@ describe('spawn-please', function() {
       })
   })
 
+  it('should allow errors to be ignored with rejectOnError:false', function () {
+    return spawn('false', [], { rejectOnError: false })
+  })
+
   it('should handle command-line arguments', function () {
     return spawn('printf', ['hello'])
       .then(function (output) {
