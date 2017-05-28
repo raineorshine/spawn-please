@@ -8,6 +8,12 @@ function spawnPlease(command, args, stdin, options) {
     stdin = undefined
   }
 
+  // defaults
+  options = options || {}
+  if(options.rejectOnError === undefined) {
+    options.rejectOnError = true
+  }
+
   var stdout = ''
   var stderr = ''
   var child = spawn(command, args, options)
@@ -31,10 +37,12 @@ function spawnPlease(command, args, stdin, options) {
       stderr += data
     })
 
-    child.addListener('error', reject)
+    if(options.rejectOnError) {
+      child.addListener('error', reject)
+    }
 
     child.on('close', function (code) {
-      if(code !== 0) {
+      if(code !== 0 && options.rejectOnError) {
         reject(stderr)
       }
       else {
