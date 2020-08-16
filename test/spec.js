@@ -72,22 +72,15 @@ describe('spawn-please', function() {
   it('should expose stdout and stderr', function () {
     let stdoutOutput = ''
     let stderrOutput = ''
-    return Promise.all([
-
-      // stdout
-      spawn('echo', ['hello'], { cwd: __dirname, stdout: data => { stdoutOutput += data }})
+    return spawn('node', ['./stdout-and-stderr.js'], {
+      cwd: __dirname,
+      stderr: data => { stderrOutput += data },
+      stdout: data => { stdoutOutput += data },
+    })
       .then(function () {
-        stdoutOutput.trim().should.equal('hello')
-      }),
-
-      // stderr
-      spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname, stderr: data => { stdoutOutput += data }})
-      .catch(function (e) {
-        e.trim().should.equal('STDERR')
+        stderrOutput.trim().should.equal('STDERR')
         stdoutOutput.trim().should.equal('STDOUT')
       })
-
-    ])
   })
 
 })
