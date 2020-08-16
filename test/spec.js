@@ -71,8 +71,8 @@ describe('spawn-please', function() {
     let stderrOutput = ''
     return spawn('node', ['./stdout-and-stderr.js'], {
       cwd: __dirname,
-      stderr: data => { stderrOutput += data },
-      stdout: data => { stdoutOutput += data },
+      stderr: function (data) { stderrOutput += data },
+      stdout: function (data) { stdoutOutput += data },
     })
       .then(function () {
         stderrOutput.trim().should.equal('STDERR')
