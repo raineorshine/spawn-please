@@ -3,10 +3,10 @@
   "version": "0.4.1",
   "description": "Promisified child_process.spawn. *Supports stdin* *Rejects on stderr*",
   "license": "ISC",
-  "repository": "metaraine/spawn-please",
+  "repository": "raineorshine/spawn-please",
   "author": {
-    "name": "Raine Lourie",
-    "url": "https://github.com/metaraine"
+    "name": "Raine Revere",
+    "url": "https://github.com/raineorshine"
   },
   "engines": {
     "node": ">=10"
