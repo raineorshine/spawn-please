@@ -1,7 +1,7 @@
 # spawn-please
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
 
-> Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
+Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
 
 ## Install
 
