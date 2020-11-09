@@ -1,9 +1,9 @@
-var chai            = require('chai')
-var should          = chai.should()
-var chaiAsPromised  = require('chai-as-promised')
-var BluebirdPromise = require('bluebird')
-var requireNew      = require('require-new')
-var spawn           = require('../index.js')
+const chai = require('chai')
+const should = chai.should()
+const chaiAsPromised = require('chai-as-promised')
+const BluebirdPromise = require('bluebird')
+const requireNew = require('require-new')
+const spawn = require('../index.js')
 
 chai.use(chaiAsPromised)
 
@@ -39,7 +39,7 @@ describe('spawn-please', function() {
   })
 
   it('allow you to specify a custom Promise', function () {
-    var spawn = requireNew('../index.js')
+    const spawn = requireNew('../index.js')
     spawn('true').should.not.be.an.instanceof(BluebirdPromise)
     spawn.Promise = BluebirdPromise
     spawn('true').should.be.an.instanceof(BluebirdPromise)
@@ -47,12 +47,12 @@ describe('spawn-please', function() {
 
   it('accept options as second argument', function () {
     return Promise.all([
-      spawn('pwd', [], 'test', { cwd: __dirname})
+      spawn('pwd', [], 'test', { cwd: __dirname })
         .then(function (output) {
           output.trim().should.equal(__dirname)
         }),
       // stdin should still be read
-      spawn('cat', [], 'test', { cwd: __dirname})
+      spawn('cat', [], 'test', { cwd: __dirname })
         .then(function (output) {
           output.should.equal('test')
         })
@@ -60,7 +60,7 @@ describe('spawn-please', function() {
   })
 
   it('accept options as third argument', function () {
-    return spawn('pwd', [], { cwd: __dirname})
+    return spawn('pwd', [], { cwd: __dirname })
       .then(function (output) {
         output.trim().should.equal(__dirname)
       })
@@ -78,8 +78,12 @@ describe('spawn-please', function() {
     let stderrOutput = ''
     return spawn('node', ['./stdout-and-stderr.js'], {
       cwd: __dirname,
-      stderr: function (data) { stderrOutput += data },
-      stdout: function (data) { stdoutOutput += data },
+      stderr: function (data) {
+        stderrOutput += data
+      },
+      stdout: function (data) {
+        stdoutOutput += data
+      },
     })
       .then(function () {
         stderrOutput.trim().should.equal('STDERR')
