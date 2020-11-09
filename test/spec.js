@@ -66,6 +66,13 @@ describe('spawn-please', function() {
       })
   })
 
+  it('only resolve stdout when fulfilled', function () {
+    return spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname })
+      .then(function (output) {
+        output.should.equal('STDOUT\n')
+      })
+  })
+
   it('expose stdout and stderr', function () {
     let stdoutOutput = ''
     let stderrOutput = ''
