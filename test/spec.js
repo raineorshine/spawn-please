@@ -7,73 +7,59 @@ const spawn = require('../index.js')
 
 chai.use(chaiAsPromised)
 
-describe('spawn-please', function() {
+describe('spawn-please', () => {
 
-  it('resolve on success', function () {
-    return spawn('true')
+  it('resolve on success', async () => {
+    await spawn('true')
   })
 
-  it('reject on fail', function () {
+  it('reject on fail', async () => {
     return spawn('false')
       .catch(function (err) {
         should.exist(err)
       })
   })
 
-  it('allow errors to be ignored with rejectOnError:false', function () {
-    return spawn('false', [], { rejectOnError: false })
+  it('allow errors to be ignored with rejectOnError:false', async () => {
+    await spawn('false', [], { rejectOnError: false })
   })
 
-  it('handle command-line arguments', function () {
-    return spawn('printf', ['hello'])
-      .then(function (output) {
-        output.should.equal('hello')
-      })
+  it('handle command-line arguments', async () => {
+    const output = await spawn('printf', ['hello'])
+    output.should.equal('hello')
   })
 
-  it('accept stdin', function () {
-    return spawn('cat', [], 'test')
-      .then(function (output) {
-        output.should.equal('test')
-      })
+  it('accept stdin', async () => {
+    const output = await spawn('cat', [], 'test')
+    output.should.equal('test')
   })
 
-  it('allow you to specify a custom Promise', function () {
+  it('allow you to specify a custom Promise', () => {
     const spawn = requireNew('../index.js')
     spawn('true').should.not.be.an.instanceof(BluebirdPromise)
     spawn.Promise = BluebirdPromise
     spawn('true').should.be.an.instanceof(BluebirdPromise)
   })
 
-  it('accept options as second argument', function () {
-    return Promise.all([
-      spawn('pwd', [], 'test', { cwd: __dirname })
-        .then(function (output) {
-          output.trim().should.equal(__dirname)
-        }),
-      // stdin should still be read
-      spawn('cat', [], 'test', { cwd: __dirname })
-        .then(function (output) {
-          output.should.equal('test')
-        })
-    ])
+  it('accept options as second argument', async () => {
+    const pwd = await spawn('pwd', [], 'test', { cwd: __dirname })
+    pwd.trim().should.equal(__dirname)
+    // stdin should still be read
+    const cat = await spawn('cat', [], 'test', { cwd: __dirname })
+    cat.should.equal('test')
   })
 
-  it('accept options as third argument', function () {
-    return spawn('pwd', [], { cwd: __dirname })
-      .then(function (output) {
-        output.trim().should.equal(__dirname)
-      })
+  it('accept options as third argument', async () => {
+    const output = await spawn('pwd', [], { cwd: __dirname })
+    output.trim().should.equal(__dirname)
   })
 
-  it('only resolve stdout when fulfilled', function () {
-    return spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname })
-      .then(function (output) {
-        output.should.equal('STDOUT\n')
-      })
+  it('only resolve stdout when fulfilled', async () => {
+    const output = await spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname })
+    output.should.equal('STDOUT\n')
   })
 
-  it('expose stdout and stderr', function () {
+  it('expose stdout and stderr', () => {
     let stdoutOutput = ''
     let stderrOutput = ''
     return spawn('node', ['./stdout-and-stderr.js'], {
@@ -85,7 +71,7 @@ describe('spawn-please', function() {
         stdoutOutput += data
       },
     })
-      .then(function () {
+      .then(() => {
         stderrOutput.trim().should.equal('STDERR')
         stdoutOutput.trim().should.equal('STDOUT')
       })

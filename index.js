@@ -1,6 +1,6 @@
 const spawn = require('child_process').spawn
 
-function spawnPlease(command, args, stdin, options) {
+const spawnPlease = (command, args, stdin, options) => {
 
   // if there are only three arguments and the third argument is an object, treat it as the options object and set stdin to null
   if (!options && typeof stdin === 'object') {
@@ -22,19 +22,19 @@ function spawnPlease(command, args, stdin, options) {
     throw new Error('No built-in Promise. You will need to use a Promise library and spawnPlease.Promise = Promise.')
   }
 
-  return new spawnPlease.Promise(function (resolve, reject) {
+  return new spawnPlease.Promise((resolve, reject) => {
 
     if (stdin !== undefined) {
       child.stdin.write(stdin)
     }
     child.stdin.end()
 
-    child.stdout.on('data', function (data) {
+    child.stdout.on('data', data => {
       stdout += data
       if (options.stdout) options.stdout(data)
     })
 
-    child.stderr.on('data', function (data) {
+    child.stderr.on('data', data => {
       stderr += data
       if (options.stderr) options.stderr(data)
     })
@@ -43,7 +43,7 @@ function spawnPlease(command, args, stdin, options) {
       child.addListener('error', reject)
     }
 
-    child.on('close', function (code) {
+    child.on('close', code => {
       if (code !== 0 && options.rejectOnError) {
         reject(stderr)
       }
