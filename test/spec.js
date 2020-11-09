@@ -20,8 +20,13 @@ describe('spawn-please', () => {
       })
   })
 
-  it('allow errors to be ignored with rejectOnError:false', async () => {
+  it('allow errors to be ignored with rejectOnError: false', async () => {
     await spawn('false', [], { rejectOnError: false })
+  })
+
+  it('ignore stderr with rejectOnError: false', async () => {
+    const output = await spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname, rejectOnError: false })
+    output.should.equal('STDOUT\n')
   })
 
   it('handle command-line arguments', async () => {
