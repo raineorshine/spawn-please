@@ -25,14 +25,14 @@ assert.equal(output, 'please?')
 
 ### How is this different than other child_process libraries?
 
-- Allows you to pass a string to stdin:
+Allows you to pass a string on stdin:
 
 ```js
 const output = await spawn('cat', [], 'test')
 assert.equal(output, 'test')
 ```
 
-- Rejects on any stderr:
+Rejects on any stderr by default:
 
 ```js
 try {
@@ -40,6 +40,22 @@ try {
 } catch (stderr) {
   // do something with stderr
 }
+```
+
+Capture both stdout and stderr:
+
+```js
+let stderr = '',
+  stdout = ''
+spawn('some-command-with-stderr', [], undefined, {
+  rejectOnError: false,
+  stdout: function (data: string) {
+    stdout += data
+  },
+  stderr: function (data: string) {
+    stderr += data
+  },
+})
 ```
 
 ## License

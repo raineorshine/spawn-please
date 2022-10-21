@@ -18,19 +18,19 @@ const spawnPlease = (command, args, stdin, options) => {
   const child = spawn(command, args, options)
 
   return new Promise((resolve, reject) => {
-    if (stdin !== undefined) {
+    if (stdin != undefined) {
       child.stdin.write(stdin)
     }
     child.stdin.end()
 
     child.stdout.on('data', data => {
       stdout += data
-      if (options.stdout) options.stdout(data)
+      options.stdout?.(data)
     })
 
     child.stderr.on('data', data => {
       stderr += data
-      if (options.stderr) options.stderr(data)
+      options.stderr?.(data)
     })
 
     if (options.rejectOnError) {
