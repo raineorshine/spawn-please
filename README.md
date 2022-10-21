@@ -2,7 +2,11 @@
 
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
 
-Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
+50 LOC syntactic sugar for [cross-spawn](https://github.com/moxystudio/node-cross-spawn).
+
+- Promisified child_process.spawn
+- Easily pass stdin
+- Rejects on stderr
 
 ## Install
 
@@ -45,16 +49,12 @@ try {
 Capture both stdout and stderr:
 
 ```js
-let stderr = '',
-  stdout = ''
+let stdout = ''
+let stderr = ''
 spawn('some-command-with-stderr', [], undefined, {
   rejectOnError: false,
-  stdout: function (data: string) {
-    stdout += data
-  },
-  stderr: function (data: string) {
-    stderr += data
-  },
+  stdout: data => (stdout += data),
+  stderr: data => (stderr += data),
 })
 ```
 
