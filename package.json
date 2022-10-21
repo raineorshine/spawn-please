@@ -32,6 +32,7 @@
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-raine": "^0.3.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-fp": "^2.3.0",
