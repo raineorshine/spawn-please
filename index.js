@@ -1,7 +1,6 @@
 const spawn = require('cross-spawn')
 
 const spawnPlease = (command, args, stdin, options) => {
-
   // if there are only three arguments and the third argument is an object, treat it as the options object and set stdin to null
   if (!options && typeof stdin === 'object') {
     options = stdin
@@ -23,7 +22,6 @@ const spawnPlease = (command, args, stdin, options) => {
   }
 
   return new spawnPlease.Promise((resolve, reject) => {
-
     if (stdin !== undefined) {
       child.stdin.write(stdin)
     }
@@ -46,12 +44,10 @@ const spawnPlease = (command, args, stdin, options) => {
     child.on('close', code => {
       if (code !== 0 && options.rejectOnError) {
         reject(stderr)
-      }
-      else {
+      } else {
         resolve(stdout)
       }
     })
-
   })
 }
 
