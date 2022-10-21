@@ -9,7 +9,7 @@
     "url": "https://github.com/raineorshine"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
     "test": "mocha",
