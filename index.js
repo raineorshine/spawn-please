@@ -1,4 +1,4 @@
-const spawn = require('child_process').spawn
+const spawn = require('cross-spawn')
 
 const spawnPlease = (command, args, stdin, options) => {
 
