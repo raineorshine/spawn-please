@@ -17,11 +17,7 @@ const spawnPlease = (command, args, stdin, options) => {
   let stderr = ''
   const child = spawn(command, args, options)
 
-  if (!spawnPlease.Promise) {
-    throw new Error('No built-in Promise. You will need to use a Promise library and spawnPlease.Promise = Promise.')
-  }
-
-  return new spawnPlease.Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     if (stdin !== undefined) {
       child.stdin.write(stdin)
     }
@@ -50,7 +46,5 @@ const spawnPlease = (command, args, stdin, options) => {
     })
   })
 }
-
-spawnPlease.Promise = typeof Promise !== 'undefined' ? Promise : null
 
 module.exports = spawnPlease

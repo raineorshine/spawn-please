@@ -1,4 +1,5 @@
 # spawn-please
+
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
 
 Promisified child_process.spawn. \*Supports stdin* \*Rejects on stderr*
@@ -29,26 +30,16 @@ assert.equal(output, 'please?')
 ```js
 const output = await spawn('cat', [], 'test')
 assert.equal(output, 'test')
-
 ```
+
 - Rejects on any stderr:
 
 ```js
 try {
   spawn('some-command-with-stderr')
-}
-catch (stderr) {
+} catch (stderr) {
   // do something with stderr
 }
-```
-
-### Using your own Promise library
-
-**spawn-please** uses the global Promise object by default. You may use your own Promise library by overriding the Promise property:
-
-```js
-const spawn = require('spawn-please')
-spawn.Promise = require('bluebird')
 ```
 
 ## License

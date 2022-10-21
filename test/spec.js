@@ -1,23 +1,20 @@
 const chai = require('chai')
 const should = chai.should()
 const chaiAsPromised = require('chai-as-promised')
-const BluebirdPromise = require('bluebird')
 const requireNew = require('require-new')
 const spawn = require('../index.js')
 
 chai.use(chaiAsPromised)
 
 describe('spawn-please', () => {
-
   it('resolve on success', async () => {
     await spawn('true')
   })
 
   it('reject on fail', async () => {
-    return spawn('false')
-      .catch(function (err) {
-        should.exist(err)
-      })
+    return spawn('false').catch(function (err) {
+      should.exist(err)
+    })
   })
 
   it('allow errors to be ignored with rejectOnError: false', async () => {
@@ -37,13 +34,6 @@ describe('spawn-please', () => {
   it('accept stdin', async () => {
     const output = await spawn('cat', [], 'test')
     output.should.equal('test')
-  })
-
-  it('allow you to specify a custom Promise', () => {
-    const spawn = requireNew('../index.js')
-    spawn('true').should.not.be.an.instanceof(BluebirdPromise)
-    spawn.Promise = BluebirdPromise
-    spawn('true').should.be.an.instanceof(BluebirdPromise)
   })
 
   it('accept options as second argument', async () => {
@@ -75,11 +65,9 @@ describe('spawn-please', () => {
       stdout: function (data) {
         stdoutOutput += data
       },
+    }).then(() => {
+      stderrOutput.trim().should.equal('STDERR')
+      stdoutOutput.trim().should.equal('STDOUT')
     })
-      .then(() => {
-        stderrOutput.trim().should.equal('STDERR')
-        stdoutOutput.trim().should.equal('STDOUT')
-      })
   })
-
 })

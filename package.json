@@ -29,7 +29,6 @@
     "stderr"
   ],
   "devDependencies": {
-    "bluebird": "^3.7.2",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.25.0",
