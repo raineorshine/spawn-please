@@ -1,7 +1,7 @@
 {
   "name": "spawn-please",
   "version": "2.0.2",
-  "description": "Promisified child_process.spawn. *Supports stdin* *Rejects on stderr*",
+  "description": "Promisified child_process.spawn. Supports stdin. Rejects on stderr.",
   "license": "ISC",
   "repository": "raineorshine/spawn-please",
   "author": {
@@ -11,12 +11,8 @@
   "engines": {
     "node": ">=14"
   },
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint .",
-    "lintfix": "eslint --fix .",
-    "test": "mocha"
-  },
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
   "keywords": [
     "promise",
     "promisified",
@@ -28,6 +24,12 @@
     "stdout",
     "stderr"
   ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "lintfix": "eslint --fix .",
+    "test": "mocha src/test"
+  },
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",

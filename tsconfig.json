@@ -1,5 +1,5 @@
 {
-  "include": ["index.js"],
+  "include": ["src/index.js"],
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -14,6 +14,7 @@
     "moduleResolution": "nodenext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
+    "outDir": "types",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
