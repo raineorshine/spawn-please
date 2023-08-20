@@ -1,6 +1,6 @@
 {
   "name": "spawn-please",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Promisified child_process.spawn. *Supports stdin* *Rejects on stderr*",
   "license": "ISC",
   "repository": "raineorshine/spawn-please",
