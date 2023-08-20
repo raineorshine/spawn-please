@@ -25,9 +25,24 @@ describe('spawn-please', () => {
     output.should.equal('STDOUT\n')
   })
 
-  it('handle command-line arguments', async () => {
+  it('no arguments', async () => {
+    const output = await spawn('env')
+    output.trim().should.match(/^PATH=/gm)
+  })
+
+  it('one argument', async () => {
     const output = await spawn('printf', ['hello'])
     output.should.equal('hello')
+  })
+
+  it('accept options as third argument', async () => {
+    const output = await spawn('pwd', [], { cwd: __dirname })
+    output.trim().should.equal(__dirname)
+  })
+
+  it('accept options as fourth argument', async () => {
+    const pwd = await spawn('pwd', [], 'test', { cwd: __dirname })
+    pwd.trim().should.equal(__dirname)
   })
 
   it('accept stdin', async () => {
@@ -35,17 +50,9 @@ describe('spawn-please', () => {
     output.should.equal('test')
   })
 
-  it('accept options as second argument', async () => {
-    const pwd = await spawn('pwd', [], 'test', { cwd: __dirname })
-    pwd.trim().should.equal(__dirname)
-    // stdin should still be read
+  it('accept options as fourth argument and read stdin', async () => {
     const cat = await spawn('cat', [], 'test', { cwd: __dirname })
     cat.should.equal('test')
-  })
-
-  it('accept options as third argument', async () => {
-    const output = await spawn('pwd', [], { cwd: __dirname })
-    output.trim().should.equal(__dirname)
   })
 
   it('only resolve stdout when fulfilled', async () => {
