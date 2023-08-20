@@ -1,5 +1,13 @@
 const spawn = require('cross-spawn')
 
+/** Spawns a child process, as long as you ask nicely.
+ * 
+ * @param {string} command - The shell command to execute.
+ * @param {string[]} args - An array of arguments that are given after the command.
+ * @param {string | any} [stdin] - A string that is passed to stdin.
+ * @param {any} [options] - Options that are passed directly to child_process.spawn.
+ * @returns {Promise<string>}
+ */
 const spawnPlease = (command, args, stdin, options) => {
   // if there are only three arguments and the third argument is an object, treat it as the options object and set stdin to null
   if (!options && typeof stdin === 'object') {

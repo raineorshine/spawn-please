@@ -12,10 +12,10 @@
     "node": ">=14"
   },
   "scripts": {
-    "test": "mocha",
+    "build": "tsc",
     "lint": "eslint .",
     "lintfix": "eslint --fix .",
-    "watch": "nodemon -w index.js -w test -x 'npm test'"
+    "test": "mocha"
   },
   "keywords": [
     "promise",
@@ -42,10 +42,11 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-standard": "^4.1.0",
-    "mocha": "^10.1.0",
-    "nodemon": "^2.0.20",
-    "prettier": "^2.7.1",
-    "require-new": "^1.1.0"
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.2",
+    "require-new": "^1.1.0",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3"
