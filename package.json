@@ -1,6 +1,6 @@
 {
   "name": "spawn-please",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Easy and small child_process.spawn",
   "license": "ISC",
   "repository": "raineorshine/spawn-please",
