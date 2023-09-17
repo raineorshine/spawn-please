@@ -1,7 +1,7 @@
 {
   "name": "spawn-please",
   "version": "2.0.2",
-  "description": "Promisified child_process.spawn. Supports stdin. Rejects on stderr.",
+  "description": "Easy and small child_process.spawn",
   "license": "ISC",
   "repository": "raineorshine/spawn-please",
   "author": {

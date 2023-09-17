@@ -2,11 +2,12 @@
 
 [![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
 
-50 LOC syntactic sugar for [cross-spawn](https://github.com/moxystudio/node-cross-spawn).
+Easy and small child_process.spawn.
 
-- Promisified child_process.spawn
-- Easily pass stdin
-- Rejects on stderr
+- Promise-based
+- Cross-platform
+- Pass stdin as an argument
+- Rejects on stderr by default, even if exit code is 0
 
 ## Install
 
@@ -16,47 +17,33 @@ $ npm install --save spawn-please
 
 ## Usage
 
-> `await spawn(command, [arguments], [stdin], [options])`
-
-`options` are passed directly to `child_process.spawn`.
-
-```js
-const spawn = require('spawn-please')
-
-const output = await spawn('printf', ['please?'])
-assert.equal(output, 'please?')
+```typescript
+(
+  command: string,
+  args?: string[],
+  options?: Options,
+  spawnOptions?: any,
+): Promise<{
+  stdout: string
+  stderr: string
+}>
 ```
 
-### How is this different than other child_process libraries?
-
-Allows you to pass a string on stdin:
-
 ```js
-const output = await spawn('cat', [], 'test')
-assert.equal(output, 'test')
+import spawn from 'spawn-please'
+
+const { stdout, stderr } = await spawn('printf', ['please?'])
+
+assert.equal(stdout, 'please?')
+assert.equal(stderr, '')
 ```
 
-Rejects on any stderr by default:
+## Options
 
-```js
-try {
-  spawn('some-command-with-stderr')
-} catch (stderr) {
-  // do something with stderr
-}
-```
-
-Capture both stdout and stderr:
-
-```js
-let stdout = ''
-let stderr = ''
-spawn('some-command-with-stderr', [], undefined, {
-  rejectOnError: false,
-  stdout: data => (stdout += data),
-  stderr: data => (stderr += data),
-})
-```
+- `rejectOnError: boolean` - Throws an error if stderr is non-empty. Default: true.
+- `stdin: string` - Send stdin to the spawned child process.
+- `stdout: (data: string) => void` - Stream stdout by chunk.
+- `stderr: (data: string) => void` - Stream stderr by chunk.
 
 ## License
 

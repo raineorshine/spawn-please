@@ -21,56 +21,53 @@ describe('spawn-please', () => {
   })
 
   it('ignore stderr with rejectOnError: false', async () => {
-    const output = await spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname, rejectOnError: false })
-    output.should.equal('STDOUT\n')
+    const { stdout, stderr } = await spawn('node', ['./stdout-and-stderr.js'], { rejectOnError: false }, { cwd: __dirname })
+    stdout.should.equal('STDOUT\n')
+    stderr.should.equal('STDERR\n')
   })
 
   it('no arguments', async () => {
-    const output = await spawn('env')
-    output.trim().should.match(/^PATH=/gm)
+    const { stdout } = await spawn('env')
+    stdout.trim().should.match(/^PATH=/gm)
   })
 
   it('one argument', async () => {
-    const output = await spawn('printf', ['hello'])
-    output.should.equal('hello')
+    const { stdout } = await spawn('printf', ['hello'])
+    stdout.should.equal('hello')
   })
 
-  it('accept options as third argument', async () => {
-    const output = await spawn('pwd', [], { cwd: __dirname })
-    output.trim().should.equal(__dirname)
-  })
-
-  it('accept options as fourth argument', async () => {
-    const pwd = await spawn('pwd', [], 'test', { cwd: __dirname })
-    pwd.trim().should.equal(__dirname)
+  it('spawn options', async () => {
+    const { stdout } = await spawn('pwd', [], {}, { cwd: __dirname })
+    stdout.trim().should.equal(__dirname)
   })
 
   it('accept stdin', async () => {
-    const output = await spawn('cat', [], 'test')
-    output.should.equal('test')
+    const { stdout } = await spawn('cat', [], { stdin: 'test' })
+    stdout.should.equal('test')
   })
 
   it('accept options as fourth argument and read stdin', async () => {
-    const cat = await spawn('cat', [], 'test', { cwd: __dirname })
-    cat.should.equal('test')
+    const { stdout } = await spawn('cat', [], { stdin: 'test' }, { cwd: __dirname })
+    stdout.should.equal('test')
   })
 
   it('only resolve stdout when fulfilled', async () => {
-    const output = await spawn('node', ['./stdout-and-stderr.js'], { cwd: __dirname })
-    output.should.equal('STDOUT\n')
+    const { stdout } = await spawn('node', ['./stdout-and-stderr.js'], {}, { cwd: __dirname })
+    stdout.should.equal('STDOUT\n')
   })
 
-  it('expose stdout and stderr', () => {
+  it('stream stdout and stderr', () => {
     let stdoutOutput = ''
     let stderrOutput = ''
     return spawn('node', ['./stdout-and-stderr.js'], {
-      cwd: __dirname,
       stderr: function (data) {
         stderrOutput += data
       },
       stdout: function (data) {
         stdoutOutput += data
       },
+    }, {
+      cwd: __dirname
     }).then(() => {
       stderrOutput.trim().should.equal('STDERR')
       stdoutOutput.trim().should.equal('STDOUT')

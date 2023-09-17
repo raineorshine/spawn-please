@@ -3,31 +3,24 @@ const spawn = require('cross-spawn')
 /** Spawns a child process, as long as you ask nicely.
  * 
  * @param {string} command - The shell command to execute.
- * @param {string[]} args - An array of arguments that are given after the command.
- * @param {string | any} [stdin] - A string that is passed to stdin.
- * @param {any} [options] - Options that are passed directly to child_process.spawn.
- * @returns {Promise<string>}
+ * @param {string[]} [args] - An array of arguments that are given after the command.
+ * @param {{ rejectOnError?: boolean, stdin?: string, stderr?: (data: string) => void, stdout?: (data: string) => void }} [options] - Options.
+ * @param {any} [spawnOptions] - Options that are passed directly to child_process.spawn. Also supports stdin: string.
+ * @returns {Promise<{ stdout: string, stderr: string }>}
  */
-const spawnPlease = (command, args, stdin, options) => {
-  // if there are only three arguments and the third argument is an object, treat it as the options object and set stdin to null
-  if (!options && typeof stdin === 'object') {
-    options = stdin
-    stdin = undefined
-  }
-
+const spawnPlease = (command, args, options={}, spawnOptions={}) => {
   // defaults
-  options = options || {}
   if (options.rejectOnError === undefined) {
     options.rejectOnError = true
   }
 
   let stdout = ''
   let stderr = ''
-  const child = spawn(command, args, options)
+  const child = spawn(command, args, spawnOptions)
 
   return new Promise((resolve, reject) => {
-    if (stdin !== undefined && stdin !== null) {
-      child.stdin.write(stdin)
+    if (options.stdin !== undefined && options.stdin != null) {
+      child.stdin.write(options.stdin)
     }
     child.stdin.end()
 
@@ -49,7 +42,7 @@ const spawnPlease = (command, args, stdin, options) => {
       if (code !== 0 && options.rejectOnError) {
         reject(stderr)
       } else {
-        resolve(stdout)
+        resolve({ stdout, stderr })
       }
     })
   })
