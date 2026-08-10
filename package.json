@@ -61,7 +61,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "cross-spawn": "^7.0.3"
+    "cross-spawn": "^7.0.6"
   },
   "allowScripts": {
     "fsevents@2.3.2": true
