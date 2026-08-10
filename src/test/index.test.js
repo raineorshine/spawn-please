@@ -1,6 +1,6 @@
 const chai = require('chai')
 const should = chai.should()
-const chaiAsPromised = require('chai-as-promised')
+const chaiAsPromised = require('chai-as-promised').default
 const spawn = require('../index.js')
 
 chai.use(chaiAsPromised)
