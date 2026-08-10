@@ -16,7 +16,10 @@ const spawnPlease = (command, args, options = {}, spawnOptions = {}) => {
 
   let stdout = ''
   let stderr = ''
-  const child = spawn(command, args, spawnOptions)
+  // stdio streams are only null when stdio is overridden in spawnOptions, which is not supported
+  const child = /** @type {import('node:child_process').ChildProcessWithoutNullStreams} */ (
+    spawn(command, args, spawnOptions)
+  )
 
   return new Promise((resolve, reject) => {
     if (options.stdin !== undefined && options.stdin != null) {
