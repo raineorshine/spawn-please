@@ -62,5 +62,9 @@
   },
   "allowScripts": {
     "fsevents@2.3.2": true
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.1.0"
   }
 }
