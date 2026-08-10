@@ -42,19 +42,12 @@
   ],
   "scripts": {
     "build": "tsc && prettier --write types",
-    "lint": "eslint .",
-    "lintfix": "eslint --fix .",
+    "lint": "prettier --check . && tsc -p tsconfig.lint.json",
+    "lintfix": "prettier --write .",
     "test": "vitest run"
   },
   "devDependencies": {
-    "eslint": "^8.47.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-config-raine": "^0.5.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^63.3.3",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-promise": "^6.1.1",
+    "@types/cross-spawn": "^6.0.6",
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "require-new": "^1.1.0",
