@@ -1,4 +1,4 @@
-const spawn = require('cross-spawn')
+import spawn from 'cross-spawn'
 
 /** Spawns a child process, as long as you ask nicely.
  *
@@ -48,4 +48,4 @@ const spawnPlease = (command, args, options = {}, spawnOptions = {}) => {
   })
 }
 
-module.exports = spawnPlease
+export default spawnPlease
