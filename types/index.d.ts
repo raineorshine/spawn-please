@@ -7,19 +7,17 @@ export = spawnPlease
  * @param {any} [spawnOptions] - Options that are passed directly to child_process.spawn. Also supports stdin: string.
  * @returns {Promise<{ stdout: string, stderr: string }>}
  */
-declare function spawnPlease(
+declare const spawnPlease: (
   command: string,
-  args?: string[] | undefined,
-  options?:
-    | {
-        rejectOnError?: boolean | undefined
-        stdin?: string | undefined
-        stderr?: ((data: string) => void) | undefined
-        stdout?: ((data: string) => void) | undefined
-      }
-    | undefined,
+  args?: string[],
+  options?: {
+    rejectOnError?: boolean
+    stdin?: string
+    stderr?: (data: string) => void
+    stdout?: (data: string) => void
+  },
   spawnOptions?: any,
-): Promise<{
+) => Promise<{
   stdout: string
   stderr: string
 }>
