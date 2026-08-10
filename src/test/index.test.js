@@ -21,7 +21,12 @@ describe('spawn-please', () => {
   })
 
   it('ignore stderr with rejectOnError: false', async () => {
-    const { stdout, stderr } = await spawn('node', ['./stdout-and-stderr.js'], { rejectOnError: false }, { cwd: __dirname })
+    const { stdout, stderr } = await spawn(
+      'node',
+      ['./stdout-and-stderr.js'],
+      { rejectOnError: false },
+      { cwd: __dirname },
+    )
     stdout.should.equal('STDOUT\n')
     stderr.should.equal('STDERR\n')
   })
@@ -59,16 +64,21 @@ describe('spawn-please', () => {
   it('stream stdout and stderr', () => {
     let stdoutOutput = ''
     let stderrOutput = ''
-    return spawn('node', ['./stdout-and-stderr.js'], {
-      stderr: function (data) {
-        stderrOutput += data
+    return spawn(
+      'node',
+      ['./stdout-and-stderr.js'],
+      {
+        stderr: function (data) {
+          stderrOutput += data
+        },
+        stdout: function (data) {
+          stdoutOutput += data
+        },
       },
-      stdout: function (data) {
-        stdoutOutput += data
+      {
+        cwd: __dirname,
       },
-    }, {
-      cwd: __dirname
-    }).then(() => {
+    ).then(() => {
       stderrOutput.trim().should.equal('STDERR')
       stdoutOutput.trim().should.equal('STDOUT')
     })
