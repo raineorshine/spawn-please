@@ -1,11 +1,7 @@
-import * as chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { describe, expect, it } from 'vitest'
 import spawn from '../index.js'
-
-const should = chai.should()
-chai.use(chaiAsPromised)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -15,9 +11,8 @@ describe('spawn-please', () => {
   })
 
   it('reject on fail', async () => {
-    return spawn('false').catch(function (err) {
-      should.exist(err)
-    })
+    // rejects with stderr, which is a string and may be empty
+    await expect(spawn('false')).rejects.toBeDefined()
   })
 
   it('allow errors to be ignored with rejectOnError: false', async () => {
@@ -31,60 +26,59 @@ describe('spawn-please', () => {
       { rejectOnError: false },
       { cwd: __dirname },
     )
-    stdout.should.equal('STDOUT\n')
-    stderr.should.equal('STDERR\n')
+    expect(stdout).toBe('STDOUT\n')
+    expect(stderr).toBe('STDERR\n')
   })
 
   it('no arguments', async () => {
     const { stdout } = await spawn('env')
-    stdout.trim().should.match(/^PATH=/gm)
+    expect(stdout.trim()).toMatch(/^PATH=/gm)
   })
 
   it('one argument', async () => {
     const { stdout } = await spawn('printf', ['hello'])
-    stdout.should.equal('hello')
+    expect(stdout).toBe('hello')
   })
 
   it('spawn options', async () => {
     const { stdout } = await spawn('pwd', [], {}, { cwd: __dirname })
-    stdout.trim().should.equal(__dirname)
+    expect(stdout.trim()).toBe(__dirname)
   })
 
   it('accept stdin', async () => {
     const { stdout } = await spawn('cat', [], { stdin: 'test' })
-    stdout.should.equal('test')
+    expect(stdout).toBe('test')
   })
 
   it('accept options as fourth argument and read stdin', async () => {
     const { stdout } = await spawn('cat', [], { stdin: 'test' }, { cwd: __dirname })
-    stdout.should.equal('test')
+    expect(stdout).toBe('test')
   })
 
   it('only resolve stdout when fulfilled', async () => {
     const { stdout } = await spawn('node', ['./stdout-and-stderr.js'], {}, { cwd: __dirname })
-    stdout.should.equal('STDOUT\n')
+    expect(stdout).toBe('STDOUT\n')
   })
 
-  it('stream stdout and stderr', () => {
+  it('stream stdout and stderr', async () => {
     let stdoutOutput = ''
     let stderrOutput = ''
-    return spawn(
+    await spawn(
       'node',
       ['./stdout-and-stderr.js'],
       {
-        stderr: function (data) {
+        stderr: data => {
           stderrOutput += data
         },
-        stdout: function (data) {
+        stdout: data => {
           stdoutOutput += data
         },
       },
       {
         cwd: __dirname,
       },
-    ).then(() => {
-      stderrOutput.trim().should.equal('STDERR')
-      stdoutOutput.trim().should.equal('STDOUT')
-    })
+    )
+    expect(stderrOutput.trim()).toBe('STDERR')
+    expect(stdoutOutput.trim()).toBe('STDOUT')
   })
 })
