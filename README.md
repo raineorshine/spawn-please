@@ -7,7 +7,7 @@ Easy and small child_process.spawn.
 - Promise-based
 - Cross-platform
 - Pass stdin as an argument
-- Rejects on stderr by default, even if exit code is 0
+- Rejects on a non-zero exit code by default
 
 ## Install
 
@@ -40,7 +40,7 @@ assert.equal(stderr, '')
 
 ## Options
 
-- `rejectOnError: boolean` - Throws an error if stderr is non-empty. Default: true.
+- `rejectOnError: boolean` - Rejects with stderr if the process exits with a non-zero exit code. Default: true.
 - `stdin: string` - Send stdin to the spawned child process.
 - `stdout: (data: string) => void` - Stream stdout by chunk.
 - `stderr: (data: string) => void` - Stream stderr by chunk.
