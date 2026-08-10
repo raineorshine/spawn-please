@@ -1,9 +1,13 @@
-const chai = require('chai')
-const should = chai.should()
-const chaiAsPromised = require('chai-as-promised').default
-const spawn = require('../index.js')
+import * as chai from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import spawn from '../index.js'
 
+const should = chai.should()
 chai.use(chaiAsPromised)
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 describe('spawn-please', () => {
   it('resolve on success', async () => {

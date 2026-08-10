@@ -4,6 +4,10 @@
     "mocha": true,
     "node": true
   },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
   "extends": ["raine", "prettier"],
   "rules": {
     // This is not a Typescript project, so types are intentionally written in JSDOC.

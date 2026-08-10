@@ -12,11 +12,17 @@
     "url": "https://github.com/raineorshine/spawn-please/issues"
   },
   "homepage": "https://github.com/raineorshine/spawn-please#readme",
-  "type": "commonjs",
+  "type": "module",
   "engines": {
     "node": ">=22"
   },
   "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
   "types": "./types/index.d.ts",
   "keywords": [
     "promise",
