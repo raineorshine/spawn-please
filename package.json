@@ -58,6 +58,6 @@
     "cross-spawn": "^7.0.6"
   },
   "allowScripts": {
-    "fsevents@2.3.2": true
+    "fsevents@2.3.3": true
   }
 }
