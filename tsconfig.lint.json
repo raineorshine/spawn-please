@@ -3,7 +3,6 @@
   "include": ["src/**/*.js"],
   "compilerOptions": {
     "declaration": false,
-    "declarationMap": false,
     "emitDeclarationOnly": false,
     "noEmit": true
   }
