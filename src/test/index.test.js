@@ -1,7 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { expect, it } from 'vitest'
-import spawn from '../index.js'
+import spawn, { SpawnError } from '../index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const node = process.execPath
@@ -11,12 +11,38 @@ it('resolve on success', async () => {
 })
 
 it('reject on fail', async () => {
-  // rejects with stderr, which is a string and may be empty
-  await expect(spawn(node, ['-e', 'process.exit(1)'])).rejects.toBeDefined()
+  await expect(spawn(node, ['-e', 'process.exit(1)'])).rejects.toThrow(SpawnError)
+})
+
+it('reject with the exit code and the output', async () => {
+  const error = await spawn(node, ['-e', 'process.stdout.write("out"); process.stderr.write("err"); process.exit(2)'])
+    .then(() => null)
+    .catch(e => e)
+  expect(error).toBeInstanceOf(SpawnError)
+  expect(error.code).toBe(2)
+  expect(error.stdout).toBe('out')
+  expect(error.stderr).toBe('err')
+  expect(error.message).toContain('err')
+})
+
+it('reject when the command does not exist, even with rejectOnError: false', async () => {
+  await expect(spawn('spawn-please-nonexistent-command', [], { rejectOnError: false })).rejects.toThrow(/ENOENT/)
 })
 
 it('allow errors to be ignored with rejectOnError: false', async () => {
-  await spawn(node, ['-e', 'process.exit(1)'], { rejectOnError: false })
+  const { code } = await spawn(node, ['-e', 'process.exit(1)'], { rejectOnError: false })
+  expect(code).toBe(1)
+})
+
+it('resolve the exit code on success', async () => {
+  const { code } = await spawn(node, ['-e', ''])
+  expect(code).toBe(0)
+})
+
+it('do not mutate the options object', async () => {
+  const options = {}
+  await spawn(node, ['-e', ''], options)
+  expect(options).toEqual({})
 })
 
 it('ignore stderr with rejectOnError: false', async () => {
