@@ -1,6 +1,6 @@
 # spawn-please
 
-[![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://npmjs.org/package/spawn-please)
+[![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://www.npmjs.com/package/spawn-please)
 
 Easy and small child_process.spawn.
 
@@ -12,7 +12,7 @@ Easy and small child_process.spawn.
 ## Install
 
 ```sh
-$ npm install --save spawn-please
+npm install spawn-please
 ```
 
 ## Usage
