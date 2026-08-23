@@ -21,4 +21,3 @@ declare const spawnPlease: (
   stderr: string
 }>
 export default spawnPlease
-//# sourceMappingURL=index.d.ts.map
