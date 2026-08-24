@@ -1,0 +1,47 @@
+name: 'CodeQL'
+
+on:
+  push:
+    # main only; everything else, dependabot included, is covered by pull_request
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: '0 2 * * 5'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read # required to fetch the list of workflows for the actions language analysis
+      contents: read # required to checkout the repository
+      security-events: write # required to upload CodeQL results
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - 'javascript-typescript'
+          - 'actions'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: +security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: '/language:${{ matrix.language }}'
