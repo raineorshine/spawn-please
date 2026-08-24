@@ -1,8 +1,8 @@
 # spawn-please
 
-[![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://www.npmjs.com/package/spawn-please)
+[![npm version](https://img.shields.io/npm/v/spawn-please)](https://www.npmjs.com/package/spawn-please)
 
-Easy and small child_process.spawn.
+Easy and small `child_process.spawn`.
 
 - Promise-based
 - Cross-platform
