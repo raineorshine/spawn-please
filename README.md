@@ -1,8 +1,8 @@
 # spawn-please
 
-[![npm version](https://img.shields.io/npm/v/spawn-please.svg)](https://www.npmjs.com/package/spawn-please)
+[![npm version](https://img.shields.io/npm/v/spawn-please)](https://www.npmjs.com/package/spawn-please)
 
-Easy and small child_process.spawn.
+Easy and small `child_process.spawn`.
 
 - Promise-based
 - Cross-platform
@@ -26,6 +26,7 @@ npm install spawn-please
 ): Promise<{
   stdout: string
   stderr: string
+  code: number | null
 }>
 ```
 
@@ -40,10 +41,29 @@ assert.equal(stderr, '')
 
 ## Options
 
-- `rejectOnError: boolean` - Rejects with stderr if the process exits with a non-zero exit code. Default: true.
+- `rejectOnError: boolean` - Rejects with a `SpawnError` if the process exits with a non-zero exit code. Default: true.
 - `stdin: string` - Send stdin to the spawned child process.
 - `stdout: (data: string) => void` - Stream stdout by chunk.
 - `stderr: (data: string) => void` - Stream stderr by chunk.
+
+## Errors
+
+A process that exits with a non-zero exit code rejects with a `SpawnError`, which keeps the output that was collected before it failed:
+
+```js
+import spawn, { SpawnError } from 'spawn-please'
+
+try {
+  await spawn('npm', ['ls', '--json'])
+} catch (err) {
+  if (err instanceof SpawnError) {
+    console.log(err.code) // 1
+    console.log(err.stdout) // still usable, even though npm exited non-zero
+  }
+}
+```
+
+A process that cannot be spawned at all, e.g. the command is not installed, rejects with the underlying `ENOENT` error. `rejectOnError: false` does not apply to it, since nothing ran.
 
 ## License
 
