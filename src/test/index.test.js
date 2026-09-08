@@ -72,6 +72,23 @@ it('accept stdin', async () => {
   expect(stdout).toBe('test')
 })
 
+// larger than the pipe buffer, so the write is still pending when the child goes away
+const bigStdin = 'x'.repeat(1024 * 1024)
+
+it('resolve when the child exits without reading a large stdin', async () => {
+  const { code } = await spawn(node, ['-e', 'process.exit(0)'], { stdin: bigStdin })
+  expect(code).toBe(0)
+})
+
+it('reject when the command does not exist and stdin is larger than the pipe buffer', async () => {
+  await expect(spawn('spawn-please-nonexistent-command', [], { stdin: bigStdin })).rejects.toThrow(/ENOENT/)
+})
+
+it('accept a stdin larger than the pipe buffer', async () => {
+  const { stdout } = await spawn(node, ['-e', 'process.stdin.pipe(process.stdout)'], { stdin: bigStdin })
+  expect(stdout).toBe(bigStdin)
+})
+
 it('accept options as fourth argument and read stdin', async () => {
   const { stdout } = await spawn(
     node,

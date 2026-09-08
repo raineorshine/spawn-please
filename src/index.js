@@ -42,6 +42,9 @@ const spawnPlease = (command, args = [], options = {}, spawnOptions = {}) => {
   )
 
   return new Promise((resolve, reject) => {
+    // a large stdin is still writing when the child goes away; error and close already settle the promise
+    child.stdin.on('error', () => {})
+
     if (stdin !== undefined && stdin !== null) {
       child.stdin.write(stdin)
     }
